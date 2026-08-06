@@ -118,7 +118,7 @@ Users can search movies, explore actors and directors, watch trailers, discover 
 # 🏗️ System Architecture
 
 <p align="center">
-<img src="assets/architecture.png" width="100%">
+<img src="assets/Architecture.png" width="100%">
 </p>
 
 ---
