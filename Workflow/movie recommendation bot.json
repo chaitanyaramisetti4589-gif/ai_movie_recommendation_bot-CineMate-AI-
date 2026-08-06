@@ -1,0 +1,3479 @@
+{
+  "name": "movie recommendation bot",
+  "nodes": [
+    {
+      "parameters": {
+        "model": "llama-3.3-70b-versatile",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        752,
+        1040
+      ],
+      "id": "ec77b02b-4f56-4019-90d1-c7123040704c",
+      "name": "Groq Chat Model",
+      "credentials": {
+        "groqApi": {
+          "id": "C2AMI7H8p1NJkD2y",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const parsed = JSON.parse($json.output);\n\nreturn [\n  {\n    json: parsed\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1552,
+        752
+      ],
+      "id": "236d75e0-cf9d-4710-8edb-cc6d97e44cb4",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.intent }}",
+                    "rightValue": "search",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "b6d77f0a-374f-4f08-bfaf-b4af888b7832"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "f6ee3197-92fc-417f-b069-395b7e90e6fb",
+                    "leftValue": "={{ $json.intent }}",
+                    "rightValue": "genre",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "2c60d225-a49b-4e45-a136-a848114cca4a",
+                    "leftValue": "={{ $json.intent }}",
+                    "rightValue": "language",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "bc96f1c4-fdb8-4b5b-aae0-42bf896da67c",
+                    "leftValue": "={{ $json.intent }}",
+                    "rightValue": "trending",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "9ba3c6cf-466c-4855-93a0-77be4f06a289",
+                    "leftValue": "={{ $json.intent }}",
+                    "rightValue": "similar",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "70481284-c750-4d5d-997a-6f16896e924e",
+                    "leftValue": "={{ $json.intent }}",
+                    "rightValue": "top_rated",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "f0e04e78-29b9-4768-bde9-96d20091d913",
+                    "leftValue": "={{ $json.intent }}",
+                    "rightValue": "upcoming",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "0876f791-0117-46d8-b101-271a5da86152",
+                    "leftValue": "={{ $json.intent }}",
+                    "rightValue": "popular",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "0ad65f5b-d05b-4fdd-9db2-78ed7c692436",
+                    "leftValue": "={{ $json.intent }}",
+                    "rightValue": "actor",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "35c229d1-a1d1-4b4c-b1fd-730c87962424",
+                    "leftValue": "={{ $json.intent }}",
+                    "rightValue": "director",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "67854759-8939-4001-9983-9377cad869bd",
+                    "leftValue": "={{ $json.intent }}",
+                    "rightValue": "unknown",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "12f518c7-3b62-4b3f-8c02-200e0ec9b6b7",
+                    "leftValue": "={{ $json.intent }}",
+                    "rightValue": "developer",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        1904,
+        816
+      ],
+      "id": "46f15c06-4949-44e0-aad7-391cdebe58de",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "url": "https://api.themoviedb.org/3/discover/movie",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "with_genres",
+              "value": "={{ $json.genre_id }}"
+            },
+            {
+              "name": "sort_by",
+              "value": "vote_average.desc"
+            },
+            {
+              "name": "include_adult",
+              "value": "false"
+            },
+            {
+              "name": "api_key",
+              "value": "600ba5cb5d374c916223c5e0c0f3a079"
+            },
+            {
+              "name": "vote_count.gte",
+              "value": "500"
+            },
+            {
+              "name": "with_original_language",
+              "value": "={{$json.language}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        2608,
+        -816
+      ],
+      "id": "354396a3-ed46-4823-8604-ab1c96a49e78",
+      "name": "genre"
+    },
+    {
+      "parameters": {
+        "url": "https://api.themoviedb.org/3/discover/movie",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "with_original_language",
+              "value": "={{ $json.language }}"
+            },
+            {
+              "name": "sort_by",
+              "value": "vote_average.desc"
+            },
+            {
+              "name": "include_adult",
+              "value": "false"
+            },
+            {
+              "name": "api_key",
+              "value": "600ba5cb5d374c916223c5e0c0f3a079"
+            },
+            {
+              "name": "vote_count.gte",
+              "value": "500"
+            },
+            {
+              "name": "language",
+              "value": "={{$json.language}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        2608,
+        -640
+      ],
+      "id": "d0f59160-a789-4acc-a0cf-837a14bfbf46",
+      "name": "language"
+    },
+    {
+      "parameters": {
+        "url": "https://api.themoviedb.org/3/trending/movie/week",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "api_key",
+              "value": "600ba5cb5d374c916223c5e0c0f3a079"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        2608,
+        -464
+      ],
+      "id": "23e21482-22f7-4ad5-871c-179ac7845b70",
+      "name": "trending"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=User Message:\n{{ $('📩 Telegram Trigger').item.json.message.text }}\nTMDB Results:\n{{ JSON.stringify($json.results) }}\nUse ONLY the provided TMDB results to answer.\nIf no movies are found, politely inform the user",
+        "options": {
+          "systemMessage": "You are CineMate AI.\n\nBased on the movie information provided, return ONLY valid JSON.\n\nRules:\n- Return ONLY JSON.\n- No markdown.\n- No HTML.\n- No explanations.\n- No code blocks.\n- No extra text.\n\nOutput format:\n\n{\n  \"story\": \"A concise, engaging story summary in 2-3 sentences.\",\n  \"why\": [\n    \"Reason 1\",\n    \"Reason 2\",\n    \"Reason 3\",\n    \"Reason 4\"\n  ]\n}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        4560,
+        128
+      ],
+      "id": "95f26f39-676d-49af-927d-b63cd8f00625",
+      "name": "RECOMMENDATION"
+    },
+    {
+      "parameters": {
+        "url": "https://api.themoviedb.org/3/movie/popular",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "api_key",
+              "value": "600ba5cb5d374c916223c5e0c0f3a079"
+            },
+            {
+              "name": "language",
+              "value": "en-US"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        2608,
+        160
+      ],
+      "id": "6cede884-77be-4c2f-a994-b296ad1875e0",
+      "name": "popular1"
+    },
+    {
+      "parameters": {
+        "url": "https://api.themoviedb.org/3/search/movie",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "api_key",
+              "value": "600ba5cb5d374c916223c5e0c0f3a079"
+            },
+            {
+              "name": "query",
+              "value": "={{ $json.movie }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        1776,
+        -1392
+      ],
+      "id": "a70bda4e-6e8b-4a06-858c-b3acbae9ae6c",
+      "name": "search"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.themoviedb.org/3/movie/{{ $json.results[0].id }}/similar",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "api_key",
+              "value": "600ba5cb5d374c916223c5e0c0f3a079"
+            },
+            {
+              "name": "language",
+              "value": "en-US"
+            },
+            {
+              "name": "id",
+              "value": "={{ $json.results[0].id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        2784,
+        -288
+      ],
+      "id": "2f89207d-c176-4399-b5c5-a50f54a36a00",
+      "name": "Similar"
+    },
+    {
+      "parameters": {
+        "url": "https://api.themoviedb.org/3/search/person",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "api_key",
+              "value": "600ba5cb5d374c916223c5e0c0f3a079"
+            },
+            {
+              "name": "query",
+              "value": "={{ $json.actor }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        2608,
+        320
+      ],
+      "id": "838a4057-713f-403c-b26e-000bceebab49",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.themoviedb.org/3/person/{{$json.results[0].id}}/movie_credits",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "api_key",
+              "value": "600ba5cb5d374c916223c5e0c0f3a079"
+            },
+            {
+              "name": "query",
+              "value": "={{ $json.movie }}"
+            },
+            {
+              "name": "page",
+              "value": "1"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        2832,
+        240
+      ],
+      "id": "5bcbd0f5-b352-458d-8b21-99d6ba73b1ac",
+      "name": "search1"
+    },
+    {
+      "parameters": {
+        "jsCode": "const movies = $json.cast.slice(0, 5);\n\nreturn [\n  {\n    json: {\n      results: movies\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3008,
+        240
+      ],
+      "id": "adfa2ec6-25c3-431c-a8f2-65da26aed488",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "url": "https://api.themoviedb.org/3/search/person",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "api_key",
+              "value": "600ba5cb5d374c916223c5e0c0f3a079"
+            },
+            {
+              "name": "query",
+              "value": "={{ $json.director }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        2608,
+        512
+      ],
+      "id": "8f0925ba-3808-4de7-a8dc-77ddf605cb9e",
+      "name": "HTTP Request2"
+    },
+    {
+      "parameters": {
+        "url": "https://api.themoviedb.org/3/movie/top_rated",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "api_key",
+              "value": "600ba5cb5d374c916223c5e0c0f3a079"
+            },
+            {
+              "name": "language",
+              "value": "={{ $json.language }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        2608,
+        -144
+      ],
+      "id": "6758cdf9-309b-40f7-9c14-87562da5cf5c",
+      "name": "top_rated"
+    },
+    {
+      "parameters": {
+        "jsCode": "const movies = $json.results.slice(0, 3);\n\nreturn [\n  {\n    json: {\n      results: movies\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2832,
+        16
+      ],
+      "id": "465e206a-634e-4b75-aa2c-6e344d8f2ad4",
+      "name": "Code in JavaScript2"
+    },
+    {
+      "parameters": {
+        "model": "llama-3.3-70b-versatile",
+        "options": {
+          "maxTokensToSample": 2000
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        4576,
+        320
+      ],
+      "id": "412f09cb-d556-4842-aa3f-5b0cb067a450",
+      "name": "Groq Chat Model1",
+      "credentials": {
+        "groqApi": {
+          "id": "C2AMI7H8p1NJkD2y",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "numberInputs": 6
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        3792,
+        -1488
+      ],
+      "id": "30df5950-35ac-434c-b1c3-1fea0e4c964c",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "url": "https://api.themoviedb.org/3/movie/upcoming",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "api_key",
+              "value": "600ba5cb5d374c916223c5e0c0f3a079"
+            },
+            {
+              "name": "language",
+              "value": "={{ $json.language }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        2608,
+        16
+      ],
+      "id": "5827557e-8233-43ab-877f-cd4dbb531265",
+      "name": "upcoming"
+    },
+    {
+      "parameters": {
+        "jsCode": "const genreMap = {\n  28: \"Action\",\n  12: \"Adventure\",\n  16: \"Animation\",\n  35: \"Comedy\",\n  80: \"Crime\",\n  99: \"Documentary\",\n  18: \"Drama\",\n  10751: \"Family\",\n  14: \"Fantasy\",\n  36: \"History\",\n  27: \"Horror\",\n  10402: \"Music\",\n  9648: \"Mystery\",\n  10749: \"Romance\",\n  878: \"Sci-Fi\",\n  53: \"Thriller\",\n  10752: \"War\",\n  37: \"Western\"\n};\nconst movies = $json.results.slice(0, 5).map(movie => ({\n  title: movie.title,\n  overview: movie.overview,\n  release_date: movie.release_date,\n  vote_average: movie.vote_average,\n  poster_path: movie.poster_path,\n  director: $('Code in JavaScript5').first().json.director,\n  cast: $('Code in JavaScript4').first().json.cast,\n  runtime: $('runtime').first().json.runtime,\n  genres: movie.genre_ids\n    .map(id => genreMap[id])\n    .filter(Boolean)\n    .join(\" • \"),\n  trailer:$(\"Code in JavaScript6\").first().json.trailer,\n  streaming: $(\"stream\").first().json.results.AD?.flatrate?.[0]?.provider_name || \"\"\n}));\n\nreturn [{\n  json: {\n    results: movies\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3936,
+        -1440
+      ],
+      "id": "5bf6b922-216a-4d31-9e91-0ac269ef36d4",
+      "name": "Code in JavaScript3"
+    },
+    {
+      "parameters": {
+        "jsCode": "const cast = $json.cast\n  .slice(0,3)\n  .map(actor => actor.name)\n  .join(\" • \");\n\nreturn [{\n  json:{\n    cast\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3264,
+        -1568
+      ],
+      "id": "2a876eae-0c81-47b9-a47f-3b3a40f27ee8",
+      "name": "Code in JavaScript4"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.themoviedb.org/3/movie/{{ $json.results[0].id }}/credits",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "api_key",
+              "value": "600ba5cb5d374c916223c5e0c0f3a079"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        2544,
+        -1584
+      ],
+      "id": "5ce3e5fa-ab9b-4727-9a6d-8b6ac71ae4cc",
+      "name": "Cast"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.themoviedb.org/3/movie/{{ $json.results[0].id }}",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "api_key",
+              "value": "600ba5cb5d374c916223c5e0c0f3a079"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        2560,
+        -1376
+      ],
+      "id": "1143952e-e119-43fb-a3a5-356253beb8bf",
+      "name": "runtime"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.themoviedb.org/3/movie/{{ $json.results[0].id }}/credits",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "api_key",
+              "value": "600ba5cb5d374c916223c5e0c0f3a079"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        2528,
+        -1728
+      ],
+      "id": "f5be2150-9632-4d87-8d3c-468a3fb70bf5",
+      "name": "director"
+    },
+    {
+      "parameters": {
+        "jsCode": "const director = $json.crew.find(p => p.job === \"Director\");\n\nreturn [{\n  json:{\n    director_id: director.id,\n    director: director ? director.name : \"\"\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2800,
+        -1728
+      ],
+      "id": "11d73ff0-c535-4be4-b8ae-1855034814a0",
+      "name": "Code in JavaScript5"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.themoviedb.org/3/movie/{{ $json.results[0].id }}/videos",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "api_key",
+              "value": "600ba5cb5d374c916223c5e0c0f3a079"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        2576,
+        -1200
+      ],
+      "id": "d7f1acab-34b5-4dec-aace-21f22049148f",
+      "name": "trailer"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Find an official YouTube trailer\nlet trailer = $json.results.find(\n  video => video.site === \"YouTube\" && video.type === \"Trailer\"\n);\n\n// If no trailer, use a teaser\nif (!trailer) {\n  trailer = $json.results.find(\n    video => video.site === \"YouTube\" && video.type === \"Teaser\"\n  );\n}\n\nreturn [{\n  json: {\n    trailer: trailer\n      ? `https://www.youtube.com/watch?v=${trailer.key}`\n      : \"\"\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3104,
+        -1296
+      ],
+      "id": "a84d8f35-da84-41ed-86b9-4eb618d9a695",
+      "name": "Code in JavaScript6"
+    },
+    {
+      "parameters": {
+        "url": "https://api.themoviedb.org/3/search/movie",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "api_key",
+              "value": "600ba5cb5d374c916223c5e0c0f3a079"
+            },
+            {
+              "name": "query",
+              "value": "={{ $json.movie }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        2608,
+        -288
+      ],
+      "id": "adcfe351-5520-4407-be5e-f78c2851e7d2",
+      "name": "similar"
+    },
+    {
+      "parameters": {
+        "operation": "sendRichMessage",
+        "chatId": "={{ $('📩 Telegram Trigger').item.json.message.from.id }}",
+        "richMessageText": "<b>🎬 Welcome to CineMate AI!</b><br><br>\n\nYour personal <b>AI Movie Assistant</b> 🍿<br><br>\n\nI can help you discover movies, explore actors & directors, find trailers, and recommend the perfect movie.<br><br>\n\n━━━━━━━━━━━━━━━━━━<br><br>\n\n<b>✨ What I Can Do</b><br><br>\n\n🔍 Search any movie<br>\n🎭 Discover movies by genre<br>\n🌍 Find movies by language<br>\n👤 Explore actor filmography<br>\n🎬 Browse director filmography<br>\n🔥 Trending & Popular movies<br>\n⭐ Top Rated movies<br>\n❤️ Similar movie recommendations<br>\n🎥 Official trailers<br>\n📖 Runtime, cast, genres & overview<br><br>\n\n━━━━━━━━━━━━━━━━━━<br><br>\n\n<b>💡 Try These</b><br><br>\n\n<code>Interstellar</code><br>\n<code>Movies like KGF</code><br>\n<code>Christopher Nolan movies</code><br>\n<code>Best Telugu action movies</code><br>\n<code>Tom Cruise movies</code><br>\n<code>Trailer of Pushpa</code><br>\n<code>Trending movies</code><br><br>\n\n━━━━━━━━━━━━━━━━━━<br><br>\n\n<b>🚀 Just send any movie-related message to get started!</b><br><br>\n\nHappy Watching! 🍿",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "🔥 Trending",
+                    "additionalFields": {
+                      "callback_data": "trending"
+                    }
+                  },
+                  {
+                    "text": "⭐ Top Rated",
+                    "additionalFields": {
+                      "callback_data": "top_rated"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "🎬 Popular",
+                    "additionalFields": {
+                      "callback_data": "popular"
+                    }
+                  },
+                  {
+                    "text": "🎥 Upcoming",
+                    "additionalFields": {
+                      "callback_data": "upcoming"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "❓ Help",
+                    "additionalFields": {
+                      "callback_data": "help"
+                    }
+                  },
+                  {
+                    "text": "🎲 Surprise Me",
+                    "additionalFields": {
+                      "callback_data": "suprise"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "👨‍💻 About Developer",
+                    "additionalFields": {
+                      "callback_data": "developer"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        784,
+        608
+      ],
+      "id": "86059493-9df2-463d-a85b-4a603ed41065",
+      "name": "start message",
+      "webhookId": "122223c6-66a6-4bea-93a7-1feb52dfd015",
+      "credentials": {
+        "telegramApi": {
+          "id": "Z6YP4MDFCKRarc3v",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('CALL BACK OR MESSAGE CLASSIFIER').item.json.callback_query.data }}",
+                    "rightValue": "trending",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "b13e5f3c-31fb-4bf3-ad83-b74e6c230401"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "c597be78-aebe-4814-a902-5c2ba170dabf",
+                    "leftValue": "={{ $('CALL BACK OR MESSAGE CLASSIFIER').item.json.callback_query.data }}",
+                    "rightValue": "top_rated",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "9788fceb-587a-44e1-a26b-cdde9bbda499",
+                    "leftValue": "={{ $('CALL BACK OR MESSAGE CLASSIFIER').item.json.callback_query.data }}",
+                    "rightValue": "popular",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "0eb68db2-1b89-4d23-88c8-59ed2323e909",
+                    "leftValue": "={{ $('CALL BACK OR MESSAGE CLASSIFIER').item.json.callback_query.data }}",
+                    "rightValue": "upcoming",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "a454d3b8-7743-4d59-8741-1d46946b0b63",
+                    "leftValue": "={{ $('CALL BACK OR MESSAGE CLASSIFIER').item.json.callback_query.data }}",
+                    "rightValue": "help",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "f4286a9a-7be6-48b1-ae63-67d13367d8a9",
+                    "leftValue": "={{ $('CALL BACK OR MESSAGE CLASSIFIER').item.json.callback_query.data }}",
+                    "rightValue": "suprise",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -320,
+        -160
+      ],
+      "id": "dfd30c7a-a748-4058-97c3-54d482bf8c63",
+      "name": "Switch1"
+    },
+    {
+      "parameters": {
+        "url": "https://api.themoviedb.org/3/trending/movie/week",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "api_key",
+              "value": "600ba5cb5d374c916223c5e0c0f3a079"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        432,
+        -1568
+      ],
+      "id": "edddcdd6-7f4d-4f60-898d-474035e6e896",
+      "name": "cb_trending"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=User Message:\n{{ $('📩 Telegram Trigger').item.json.callback_query.message.text }}\nTMDB Results:\n{{ JSON.stringify($('Code in JavaScript7').item.json)}}\n\nUse ONLY the provided TMDB results to answer.\nIf no movies are found, politely inform the user",
+        "options": {
+          "systemMessage": "You are CineMate, an expert AI movie recommendation assistant.\n\nYour job is to convert TMDB movie data into a beautiful Telegram response.\n\nSTRICT RULES\n\n1. Use ONLY the provided TMDB data.\n2. Never invent movies, ratings, cast, directors, runtime, streaming platforms, or trailers.\n3. If information is missing, simply omit that section.\n4. Never mention TMDB, JSON, API, or internal processing.\n5. Never explain your reasoning.\n6. Never output <think>, markdown, HTML, or JSON.\n7. Return plain text only.\n8. Keep responses concise and easy to read.\n9. Use emojis exactly as shown below.\n10.IF the given data is about a trailer just provide movie name and its trailer only\nFORMAT\n\n🎬 Movie Title (Year)\n\n⭐ Rating/10\n🎭 Genre 1 • Genre 2 • Genre 3\n⏱ Runtime min\n\n🎬 Director\nDirector Name\n\n👥 Cast\nActor 1 • Actor 2 • Actor 3\n\n━━━━━━━━━━━━━━\n\n📝 Story\n\nWrite a spoiler-free summary in 2-3 short sentences.\n\n━━━━━━━━━━━━━━\n❤️ Why You'll Enjoy It\n\n✅ point 1\n\n✅ point 2\n\n✅ point 3\n\n✅ point 4\n\n━━━━━━━━━━━━━━\n\n🎥 Trailer\nTrailer URL (only if provided)\n\n━━━━━━━━━━━━━━\n\n📺 Available On\nStreaming platforms (only if provided)\n\nRULES\n\n- Round ratings to one decimal place.\n- Story must not exceed 250 characters.\n- Show maximum 3 cast members.\n- Never show \"Not specified\", \"Unknown\", or \"N/A\".\n- If trailer is unavailable, omit the Trailer section.\n- If streaming information is unavailable, omit the Streaming section.\n- If runtime is unavailable, omit Runtime.\n- If director is unavailable, omit Director.\n\nIf multiple movies are provided:\n\nShow ONLY the best matching movie.\n\nAt the bottom write:\n\n🎬 More in this Series\n\n🎬 Movie 2(Year of release)\n\n🎬 Movie 3 (Year of release)\n\nAlways include a \"❤️ Why You'll Enjoy It\" section with exactly 4 short bullet points describing the type of audience that would enjoy the movie.\n\nExample:\n\n❤️ Why You'll Enjoy It\n\n✅ Fans of epic fantasy\n✅ Lovers of large-scale action\n✅ Viewers who enjoy mythology\n✅ People who like heroic journeys\n\nNever omit this section.\n\nDo not generate recommendations unless the user explicitly asks for recommendations.\n\nAlways produce a polished Telegram-friendly response.\nDont include \"More in the series\" for every movies just include for the movies which have sequels only\nIf the question is 'hi' or 'yes' such related things reply in the same professional format"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        1120,
+        -1296
+      ],
+      "id": "4cdb6281-2acb-4df8-9607-522c5fe162b1",
+      "name": "RECOMMENDATION1"
+    },
+    {
+      "parameters": {
+        "model": "llama-3.3-70b-versatile",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        -1104
+      ],
+      "id": "b06dde1a-2d45-4ba5-a981-80183aafc787",
+      "name": "Groq Chat Model2",
+      "credentials": {
+        "groqApi": {
+          "id": "C2AMI7H8p1NJkD2y",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://api.themoviedb.org/3/movie/top_rated",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "api_key",
+              "value": "600ba5cb5d374c916223c5e0c0f3a079"
+            },
+            {
+              "name": "language",
+              "value": "={{ $json.language }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        432,
+        -1376
+      ],
+      "id": "e9452bda-eae2-4e69-b2f5-f866fdbdb157",
+      "name": "top_rated1"
+    },
+    {
+      "parameters": {
+        "url": "https://api.themoviedb.org/3/movie/upcoming",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "api_key",
+              "value": "600ba5cb5d374c916223c5e0c0f3a079"
+            },
+            {
+              "name": "language",
+              "value": "={{ $json.language }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        432,
+        -1040
+      ],
+      "id": "dda70ac7-5cbd-44e7-a460-84ac55f9dca9",
+      "name": "upcoming1"
+    },
+    {
+      "parameters": {
+        "url": "https://api.themoviedb.org/3/movie/popular",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "api_key",
+              "value": "600ba5cb5d374c916223c5e0c0f3a079"
+            },
+            {
+              "name": "language",
+              "value": "en-US"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        432,
+        -1216
+      ],
+      "id": "24300382-a869-4792-bd0d-c87fba328fdc",
+      "name": "popular"
+    },
+    {
+      "parameters": {
+        "operation": "sendRichMessage",
+        "chatId": "={{ $('📩 Telegram Trigger').item.json.callback_query.message.chat.id }}",
+        "richMessageText": "<b>❓ CineMate AI - Help Center</b><br><br>\n\nWelcome! Here's everything you can ask me.<br><br>\n\n━━━━━━━━━━━━━━━━━━<br><br>\n\n<b>🎬 Movie Search</b><br>\n\n<code>Interstellar</code><br>\n<code>KGF</code><br>\n<code>Pushpa</code><br>\n<code>Baahubali</code><br><br>\n\n<b>🎭 Genre Recommendations</b><br>\n\n<code>Best horror movies</code><br>\n<code>Top comedy movies</code><br>\n<code>Best sci-fi movies</code><br>\n<code>Romantic movies</code><br><br>\n\n<b>🌍 Language-Based Movies</b><br>\n\n<code>Best Telugu movies</code><br>\n<code>Popular Korean movies</code><br>\n<code>Top Tamil movies</code><br>\n<code>Best Japanese movies</code><br><br>\n\n<b>👤 Actor Filmography</b><br>\n\n<code>Tom Cruise movies</code><br>\n<code>Allu Arjun movies</code><br>\n<code>Mahesh Babu movies</code><br><br>\n\n<b>🎬 Director Filmography</b><br>\n\n<code>Christopher Nolan movies</code><br>\n<code>S. S. Rajamouli movies</code><br>\n<code>Sukumar movies</code><br><br>\n\n<b>❤️ Similar Movies</b><br>\n\n<code>Movies like Interstellar</code><br>\n<code>Movies like KGF</code><br>\n<code>Movies like Pushpa</code><br><br>\n\n<b>🔥 Discover Movies</b><br>\n\n<code>Trending movies</code><br>\n<code>Popular movies</code><br>\n<code>Top rated movies</code><br>\n<code>Upcoming movies</code><br><br>\n\n<b>🎥 Trailer</b><br>\n\n<code>Trailer of Pushpa</code><br>\n<code>Interstellar trailer</code><br><br>\n\n━━━━━━━━━━━━━━━━━━<br><br>\n\n<b>💡 Tip</b><br>\n\nYou don't need to use commands. Just type naturally, for example:<br><br>\n\n<code>I want a good thriller</code><br>\n<code>Best Telugu action movies</code><br>\n<code>Recommend a movie like KGF</code><br><br>\n\n━━━━━━━━━━━━━━━━━━<br><br>\n\n<b>🍿 Enjoy discovering your next favorite movie with CineMate AI!</b>",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        432,
+        -880
+      ],
+      "id": "6f89c75d-f8cb-4869-8914-6dd98c70d46c",
+      "name": "help message",
+      "webhookId": "64b43869-7604-4173-85da-f717c1a8fd7a",
+      "credentials": {
+        "telegramApi": {
+          "id": "Z6YP4MDFCKRarc3v",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('📩 Telegram Trigger').item.json.callback_query.message.chat.id }}",
+        "text": "={{ $json.output }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1488,
+        -784
+      ],
+      "id": "85afd65a-068e-46fd-a878-0d9cf7ad5f81",
+      "name": "cb_messages",
+      "webhookId": "26073b07-fc8a-4afa-a8b7-77dd69b987b3",
+      "credentials": {
+        "telegramApi": {
+          "id": "Z6YP4MDFCKRarc3v",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://api.themoviedb.org/3/person/{{$('HTTP Request2').item.json.results[0].id}}/images",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "api_key",
+              "value": "600ba5cb5d374c916223c5e0c0f3a079"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        5472,
+        -144
+      ],
+      "id": "87dc854e-d8ea-47c8-8f6e-6042ea2f6496",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "url": "=https://image.tmdb.org/t/p/w500{{ $json.profiles[0].file_path }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        5776,
+        -144
+      ],
+      "id": "7a9a778b-9127-4c9b-a9e0-06619c4c3617",
+      "name": "HTTP Request3"
+    },
+    {
+      "parameters": {
+        "operation": "sendPhoto",
+        "chatId": "={{ $('📩 Telegram Trigger').item.json.message.chat.id }}",
+        "binaryData": true,
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        6496,
+        192
+      ],
+      "id": "925969e8-672d-436f-b511-b75e6fb5cd5b",
+      "name": "Send a photo message",
+      "webhookId": "7134061e-0dfa-4216-91f9-69af662748f1",
+      "credentials": {
+        "telegramApi": {
+          "id": "Z6YP4MDFCKRarc3v",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://api.themoviedb.org/3/person/{{$('HTTP Request1').item.json.results[0].id}}/images",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "api_key",
+              "value": "600ba5cb5d374c916223c5e0c0f3a079"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        5472,
+        16
+      ],
+      "id": "2da0c7b7-175f-441c-9ef8-cbb228ae92bf",
+      "name": "HTTP Request4"
+    },
+    {
+      "parameters": {
+        "url": "=https://image.tmdb.org/t/p/w500{{ $json.profiles[0].file_path }}",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "api_key",
+              "value": "600ba5cb5d374c916223c5e0c0f3a079"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        5776,
+        16
+      ],
+      "id": "0541e67e-8a46-435f-96d5-1dc384b6bb4c",
+      "name": "HTTP Request5"
+    },
+    {
+      "parameters": {
+        "url": "= https://api.themoviedb.org/3/movie/{{$json.results[0].id}}/watch/providers",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "api_key",
+              "value": "600ba5cb5d374c916223c5e0c0f3a079"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        2544,
+        -1008
+      ],
+      "id": "0d956cec-bf0d-4524-be5e-1e71ef7c6b3a",
+      "name": "stream"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  item.json.myNewField = 1;\n}\n\nreturn $input.all();"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4080,
+        -1440
+      ],
+      "id": "37801934-78d9-40dc-b7d2-7267dcb2eeae",
+      "name": "Movie Details"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Code in JavaScript').item.json.intent }}",
+                    "rightValue": "director",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "de0178b9-b9d2-40e0-bbe5-8f8c608abe69"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "747a8d58-47d0-476a-81e1-97ec4426b2f0",
+                    "leftValue": "={{ $('Code in JavaScript').item.json.intent }}",
+                    "rightValue": "actor",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "4dd2c044-1d4a-4bd9-9fb3-b4185c3c6496",
+                    "leftValue": "={{ $('Code in JavaScript').item.json.intent }}",
+                    "rightValue": "search",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        5088,
+        96
+      ],
+      "id": "918a8c6e-f4fe-4a71-8089-05fbdcd6078e",
+      "name": "Switch3"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('📩 Telegram Trigger').item.json.message.chat.id }}",
+        "text": "={{ $('Code in JavaScript11').item.json.output }}",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "🎥 Trailer",
+                    "additionalFields": {
+                      "callback_data": "=Trailer_{{ $('Merge').item.json.results[0].id }}"
+                    }
+                  },
+                  {
+                    "text": "❤️ Similar",
+                    "additionalFields": {
+                      "callback_data": "=similar_{{ $('Merge').item.json.results[0].id }}"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "👥 Cast",
+                    "additionalFields": {
+                      "callback_data": "=cast_{{ $('Merge').item.json.results[0].id }}"
+                    }
+                  },
+                  {
+                    "text": "🎬 Director",
+                    "additionalFields": {
+                      "callback_data": "=director_{{ $('Code in JavaScript5').first().json.director_id }}"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "🏠 Home",
+                    "additionalFields": {
+                      "callback_data": "home"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        7152,
+        192
+      ],
+      "id": "b24b52a3-8b57-4ad0-95cf-0c0a1705c499",
+      "name": "Send a text message",
+      "webhookId": "e609ca0e-c7cd-4fac-a08c-6aaea43c2594",
+      "credentials": {
+        "telegramApi": {
+          "id": "Z6YP4MDFCKRarc3v",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://image.tmdb.org/t/p/w500{{$('Code in JavaScript3').item.json.results[0].poster_path}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        5696,
+        160
+      ],
+      "id": "bf6555cc-634a-4cd4-9bfc-3f22bbce0e10",
+      "name": "photo1"
+    },
+    {
+      "parameters": {
+        "url": "https://api.themoviedb.org/3/movie/popular",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "api_key",
+              "value": "600ba5cb5d374c916223c5e0c0f3a079"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        432,
+        -688
+      ],
+      "id": "1e2f21a3-057f-4956-960a-fe11cb2aa408",
+      "name": "HTTP Request6"
+    },
+    {
+      "parameters": {
+        "jsCode": "const movies = $json.results;\n\n// Pick a random movie\nconst randomMovie = movies[Math.floor(Math.random() * movies.length)];\n\nreturn [\n  {\n    json: randomMovie\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        720,
+        -688
+      ],
+      "id": "6f1ac7cb-e27b-4101-ba50-2b1556424748",
+      "name": "Code in JavaScript7"
+    },
+    {
+      "parameters": {
+        "jsCode": "const callback = $('📩 Telegram Trigger').first().json.callback_query.data;\n\nconst [action, movieId] = callback.split(\"_\");\n\nreturn [{\n  json: {\n    action,\n    movieId\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -96,
+        16
+      ],
+      "id": "1d82c111-b9c7-4514-8f79-d2df79f60a29",
+      "name": "Code in JavaScript8"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.action }}",
+                    "rightValue": "Trailer",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "5e427c57-e494-4281-a77a-81fc50b330db"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "e7f44a61-54c2-4557-9bf6-40a4bfe8c4fb",
+                    "leftValue": "={{ $json.action }}",
+                    "rightValue": "similar",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "7bd29018-43f8-41ec-9aa4-7bd641713ae3",
+                    "leftValue": "={{ $json.action }}",
+                    "rightValue": "cast",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "c6be2e60-0279-49f1-ac04-75bbb2b793b9",
+                    "leftValue": "={{ $json.action }}",
+                    "rightValue": "director",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "89bd0f2d-fafb-4692-b0ce-d14f9a10a40d",
+                    "leftValue": "={{ $json.action }}",
+                    "rightValue": "home",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "8f3892d6-96db-4b76-aedb-1690fc8f7685",
+                    "leftValue": "={{ $json.action }}",
+                    "rightValue": "developer",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        48,
+        -32
+      ],
+      "id": "43a7981f-95c1-4ee3-8968-e55fead7fbcc",
+      "name": "Switch4"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.themoviedb.org/3/movie/{{ $json.movieId }}/videos",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "api_key",
+              "value": "600ba5cb5d374c916223c5e0c0f3a079"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        448,
+        -432
+      ],
+      "id": "a500c082-e0c2-411f-bda6-bf441b3deb9c",
+      "name": "HTTP Request7"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Just analyze the data and give the required otput\nUsers Request:\n{{ $('Code in JavaScript8').item.json.action }}\nTMDB Results:\n{{ JSON.stringify($json)}}\n\nUse ONLY the provided TMDB results to answer.\nIf no movies are found, politely inform the user",
+        "options": {
+          "systemMessage": "You are CineMate, an expert AI movie recommendation assistant.\n\nYour job is to convert TMDB movie data into a beautiful Telegram response.\n\nSTRICT RULES\n\n1. Use ONLY the provided TMDB data.\n2. Never invent movies, ratings, cast, directors, runtime, streaming platforms, or trailers.\n3. If information is missing, simply omit that section.\n4. Never mention TMDB, JSON, API, or internal processing.\n5. Never explain your reasoning.\n6. Never output <think>, markdown, HTML, or JSON.\n7. Return plain text only.\n8. Keep responses concise and easy to read.\n9. Use emojis exactly as shown below.\n10.IF the given data is about a trailer just provide movie name and its trailer only\n11.If the question is similar then consider only 5 movies from the results and mention Similar movies to Movie title and display only the best movie\n12.respond as per the user message if the question is if the data is related to similar movies for the movie in the user message\n13.If only trailer data give the trailer link only\n14.If the movie data is not available dont say it just give the Trailer with Trailer heading only\n15.if the movie data is not found and If the data is about cast then return only Top 10 Cast of the movie\n16.If the question is about the director then return the output in this format from the data provided (consider only 5 movies from the data) return only one item not two\n👤 <director name>\n\n📅 Born\n\n\n📍 Place of Birth\n\n\n📝 Biography\n(2–3 short paragraphs)\n\n🎬 Best Movies\n\n• <list of some movies from given data>\nFORMAT\n\n🎬 Movie Title (Year)\n\n⭐ Rating/10\n🎭 Genre 1 • Genre 2 • Genre 3\n⏱ Runtime min\n\n🎬 Director\nDirector Name\n\n👥 Cast\nActor 1 • Actor 2 • Actor 3\n\n━━━━━━━━━━━━━━\n\n📝 Story\n\nWrite a spoiler-free summary in 2-3 short sentences.\n\n━━━━━━━━━━━━━━\n❤️ Why You'll Enjoy It\n\n✅ point 1\n\n✅ point 2\n\n✅ point 3\n\n✅ point 4\n\n━━━━━━━━━━━━━━\n\n🎥 Trailer\nTrailer URL (only if provided)\n\n━━━━━━━━━━━━━━\n\n📺 Available On\nStreaming platforms (only if provided)\n\nRULES\n\n- Round ratings to one decimal place.\n- Story must not exceed 250 characters.\n- Show maximum 3 cast members.\n- Never show \"Not specified\", \"Unknown\", or \"N/A\".\n- If trailer is unavailable, omit the Trailer section.\n- If streaming information is unavailable, omit the Streaming section.\n- If runtime is unavailable, omit Runtime.\n- If director is unavailable, omit Director.\n\nIf multiple movies are provided:\n\nShow ONLY the best matching movie.\n\nAt the bottom write:\n\n🎬 More in this Series\n\n🎬 Movie 2(Year of release)\n\n🎬 Movie 3 (Year of release)\n\nAlways include a \"❤️ Why You'll Enjoy It\" section with exactly 4 short bullet points describing the type of audience that would enjoy the movie.\n\nExample:\n\n❤️ Why You'll Enjoy It\n\n✅ Fans of epic fantasy\n✅ Lovers of large-scale action\n✅ Viewers who enjoy mythology\n✅ People who like heroic journeys\n\nNever omit this section.\n\nDo not generate recommendations unless the user explicitly asks for recommendations.\n\nAlways produce a polished Telegram-friendly response.\nDont include \"More in the series\" for every movies just include for the movies which have sequels only\nIf the question is 'hi' or 'yes' such related things reply in the same professional format"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        1120,
+        -304
+      ],
+      "id": "b66197ea-28d0-4e10-b90f-605147e72f00",
+      "name": "RECOMMENDATION2"
+    },
+    {
+      "parameters": {
+        "model": "llama-3.3-70b-versatile",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        1136,
+        -128
+      ],
+      "id": "ff1f3b99-87f8-4cab-8168-2a0219cbc353",
+      "name": "Groq Chat Model3",
+      "credentials": {
+        "groqApi": {
+          "id": "C2AMI7H8p1NJkD2y",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://api.themoviedb.org/3/movie/{{ $json.movieId }}/similar",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "api_key",
+              "value": "600ba5cb5d374c916223c5e0c0f3a079"
+            },
+            {
+              "name": "language",
+              "value": "en-US"
+            },
+            {
+              "name": "id",
+              "value": "={{ $json.results[0].id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        448,
+        -240
+      ],
+      "id": "361cb8ea-e44d-46d5-b7ed-316a56e7e97e",
+      "name": "Similar1"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.themoviedb.org/3/movie/{{ $json.movieId }}/credits",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "api_key",
+              "value": "600ba5cb5d374c916223c5e0c0f3a079"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        448,
+        -96
+      ],
+      "id": "111c60e6-7c80-4657-8cf7-586ab0c7b292",
+      "name": "Cast1"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.themoviedb.org/3/person/{{ $json.movieId }}",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "api_key",
+              "value": "600ba5cb5d374c916223c5e0c0f3a079"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        448,
+        48
+      ],
+      "id": "0ab7ec9e-bc26-4e46-9bd5-5750b2582234",
+      "name": "HTTP Request8"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.themoviedb.org/3/person/{{ $('Code in JavaScript8').item.json.movieId }}/credits",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "api_key",
+              "value": "600ba5cb5d374c916223c5e0c0f3a079"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        592,
+        144
+      ],
+      "id": "004a133d-27c4-4566-acb5-d62b89ae12ec",
+      "name": "HTTP Request9"
+    },
+    {
+      "parameters": {
+        "jsCode": "const movies = $json.cast.slice(0, 3).map(movie => ({\n  title: movie.title,\n  year: movie.release_date?.substring(0, 4),\n  rating: Number(movie.vote_average).toFixed(1),\n  genres: movie.genres,\n  runtime: movie.runtime,\n  director: movie.director,\n  cast: movie.cast,\n  overview: movie.overview,\n  trailer: movie.trailer,\n  streaming: movie.streaming\n}));\n\nreturn [{\n  json: {\n    results: movies\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        752,
+        144
+      ],
+      "id": "18f8f213-2191-4302-a538-ff165a8548c7",
+      "name": "Code in JavaScript9"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        912,
+        48
+      ],
+      "id": "a9950fa5-fd68-4eab-8181-82ae3699c83c",
+      "name": "Merge1"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  {\n    json: $input.first().json\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        992,
+        304
+      ],
+      "id": "7e591d9a-3f05-47cc-a7c7-0408c2b8ec9b",
+      "name": "Code in JavaScript10"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('📩 Telegram Trigger').item.json.message.chat.id }}",
+        "text": "={{ $('RECOMMENDATION').item.json.output }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        5472,
+        352
+      ],
+      "id": "a4e99f5b-453f-4fc4-8d7c-46a16a64815f",
+      "name": "Send a text message1",
+      "webhookId": "e609ca0e-c7cd-4fac-a08c-6aaea43c2594",
+      "credentials": {
+        "telegramApi": {
+          "id": "Z6YP4MDFCKRarc3v",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "sendRichMessage",
+        "chatId": "={{ $('📩 Telegram Trigger').item.json.callback_query.message.chat.id }}",
+        "richMessageText": "<b>🎬 Welcome to CineMate AI!</b><br><br>\n\nYour personal <b>AI Movie Assistant</b> 🍿<br><br>\n\nI can help you discover movies, explore actors & directors, find trailers, and recommend the perfect movie.<br><br>\n\n━━━━━━━━━━━━━━━━━━<br><br>\n\n<b>✨ What I Can Do</b><br><br>\n\n🔍 Search any movie<br>\n🎭 Discover movies by genre<br>\n🌍 Find movies by language<br>\n👤 Explore actor filmography<br>\n🎬 Browse director filmography<br>\n🔥 Trending & Popular movies<br>\n⭐ Top Rated movies<br>\n❤️ Similar movie recommendations<br>\n🎥 Official trailers<br>\n📖 Runtime, cast, genres & overview<br><br>\n\n━━━━━━━━━━━━━━━━━━<br><br>\n\n<b>💡 Try These</b><br><br>\n\n<code>Interstellar</code><br>\n<code>Movies like KGF</code><br>\n<code>Christopher Nolan movies</code><br>\n<code>Best Telugu action movies</code><br>\n<code>Tom Cruise movies</code><br>\n<code>Trailer of Pushpa</code><br>\n<code>Trending movies</code><br><br>\n\n━━━━━━━━━━━━━━━━━━<br><br>\n\n<b>🚀 Just send any movie-related message to get started!</b><br><br>\n\nHappy Watching! 🍿",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "🔥 Trending",
+                    "additionalFields": {
+                      "callback_data": "trending"
+                    }
+                  },
+                  {
+                    "text": "⭐ Top Rated",
+                    "additionalFields": {
+                      "callback_data": "top_rated"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "🎬 Popular",
+                    "additionalFields": {
+                      "callback_data": "popular"
+                    }
+                  },
+                  {
+                    "text": "🎥 Upcoming",
+                    "additionalFields": {
+                      "callback_data": "upcoming"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "❓ Help",
+                    "additionalFields": {
+                      "callback_data": "help"
+                    }
+                  },
+                  {
+                    "text": "🎲 Surprise Me",
+                    "additionalFields": {
+                      "callback_data": "suprise"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        448,
+        240
+      ],
+      "id": "274e41d0-918f-429d-abd3-b2b88f6300eb",
+      "name": "start message1",
+      "webhookId": "122223c6-66a6-4bea-93a7-1feb52dfd015",
+      "credentials": {
+        "telegramApi": {
+          "id": "Z6YP4MDFCKRarc3v",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message",
+          "callback_query"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.5,
+      "position": [
+        -1216,
+        704
+      ],
+      "id": "f5baaf58-ca3c-4269-9dcd-858dfa79b423",
+      "name": "📩 Telegram Trigger",
+      "webhookId": "52941838-b682-416b-962a-ca84b07a8878",
+      "credentials": {
+        "telegramApi": {
+          "id": "Z6YP4MDFCKRarc3v",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.callback_query ? \"callback\" : \"message\" }}",
+                    "rightValue": "callback",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "68fef291-546d-40fe-98fc-168c4c336bc1"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "d96e3b9c-ae62-4293-9887-605432453b81",
+                    "leftValue": "={{ $json.callback_query ? \"callback\" : \"message\" }}",
+                    "rightValue": "message",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "looseTypeValidation": "={{ false }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -960,
+        704
+      ],
+      "id": "4e6dc7a1-c2e5-4417-a182-fd3072002dfa",
+      "name": "CALL BACK OR MESSAGE CLASSIFIER"
+    },
+    {
+      "parameters": {
+        "resource": "callback",
+        "queryId": "={{ $json.callback_query.id }}",
+        "additionalFields": {
+          "text": "=Loading  {{ $json.callback_query.data }} option......"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -528,
+        -64
+      ],
+      "id": "043cb342-8342-4306-87bb-fc1f7dbd9e82",
+      "name": "Answering Buttons",
+      "webhookId": "fc1924a6-e2fc-42ae-aad5-fc4009537871",
+      "credentials": {
+        "telegramApi": {
+          "id": "Z6YP4MDFCKRarc3v",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "f531b305-c572-46f7-b4f2-f965fa1d9e1a",
+              "leftValue": "={{ $('📩 Telegram Trigger').item.json.message.text }}",
+              "rightValue": "/start",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        64,
+        736
+      ],
+      "id": "20e8f403-f188-40ea-9732-93b72316f8ed",
+      "name": "start or other"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Analyze the following user request and classify its intent.\n\nUser Message:\n{{ $('📩 Telegram Trigger').item.json.message.text }}\n\nReturn ONLY a valid JSON object according to the system instructions.",
+        "options": {
+          "systemMessage": "You are an Intent Classification Engine for a Movie Recommendation Bot.\n\nYour ONLY task is to analyze the user's message and return a valid JSON object.\n\nDo NOT recommend movies.\nDo NOT explain anything.\nDo NOT use markdown.\nDo NOT add extra text.\nReturn ONLY valid JSON.\n\nSupported intents:\n\n1. search\n   User is searching for a specific movie.\n\n2. genre\n   User wants movies from a genre.\n\n3. language\n   User wants movies in a specific language.\n\n4. similar\n   User wants movies similar to another movie.\n\n5. actor\n   User wants movies starring an actor.\n\n6. director\n   User wants movies by a director.\n\n7. trending\n   User wants trending movies.\n\n8. top_rated\n   User wants top-rated movies.\n\n9. upcoming\n   User wants upcoming movies.\n\n10. now_playing\n    User wants movies currently in theatres.\n\n11. popular\n    User wants popular movies.\n\n12. unknown\n    If the intent cannot be determined.\n13.Developer\nif the intention is about the developer give the intent as developer\n\nConvert values into TMDB-friendly formats.\n\nLanguages:\nEnglish -> en\nTelugu -> te\nHindi -> hi\nTamil -> ta\nMalayalam -> ml\nKannada -> kn\nJapanese -> ja\nKorean -> ko\n\nGenres:\n\nAction -> 28\nAdventure -> 12\nAnimation -> 16\nComedy -> 35\nCrime -> 80\nDocumentary -> 99\nDrama -> 18\nFamily -> 10751\nFantasy -> 14\nHistory -> 36\nHorror -> 27\nMusic -> 10402\nMystery -> 9648\nRomance -> 10749\nScience Fiction -> 878\nTV Movie -> 10770\nThriller -> 53\nWar -> 10752\nWestern -> 37\n\nReturn JSON according to these formats.\n\nMovie Search\n\n{\n  \"intent\":\"search\",\n  \"movie\":\"Movie Name\"\n}\n\nGenre Recommendation\n\n{\n  \"intent\":\"genre\",\n  \"genre\":\"Horror\",\n  \"genre_id\":27\n}\n\nLanguage Recommendation\n\n{\n  \"intent\":\"language\",\n  \"language\":\"te\"\n}\n\nSimilar Movies\n\n{\n  \"intent\":\"similar\",\n  \"movie\":\"Interstellar\"\n}\n\nActor Movies\n\n{\n  \"intent\":\"actor\",\n  \"actor\":\"Tom Cruise\"\n}\n\nDirector Movies\n\n{\n  \"intent\":\"director\",\n  \"director\":\"Christopher Nolan\"\n}\n\nTrending Movies\n\n{\n  \"intent\":\"trending\"\n}\n\nTop Rated Movies\n\n{\n  \"intent\":\"top_rated\"\n}\n\nUpcoming Movies\n\n{\n  \"intent\":\"upcoming\"\n}\nUpcoming movies in particular language\n{\n  \"intent\":\"upcoming\",\n\"language\":\"\"\n}\nNow Playing\n\n{\n  \"intent\":\"now_playing\"\n}\n\nPopular Movies\n\n{\n  \"intent\":\"popular\"\n}\n\nUnknown\n\n{\n  \"intent\":\"unknown\"\n}\n\nNever return explanations.\n\nNever return markdown.\n\nNever return code blocks.\n\nReturn ONLY a valid JSON object."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        432,
+        752
+      ],
+      "id": "d1fdb498-a1ab-44fe-9706-e19e2a669885",
+      "name": "🧠 Intent Classifier"
+    },
+    {
+      "parameters": {
+        "operation": "sendPhoto",
+        "chatId": "={{ $('📩 Telegram Trigger').item.json.message.from.id }}",
+        "file": "={{\"https://github.com/chaitanyaramisetti4589-gif/ai_movie_recommendation_bot-CineMate-AI-/blob/master/assets/CineMateAIBanner.png?raw=true\"}}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        480,
+        608
+      ],
+      "id": "52974816-d242-4c3b-922a-3a91741601ec",
+      "name": "Send a photo message1",
+      "webhookId": "1bea614d-d454-4de7-ab8c-8eceefc75171",
+      "credentials": {
+        "telegramApi": {
+          "id": "Z6YP4MDFCKRarc3v",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "sendPhoto",
+        "chatId": "={{ $('📩 Telegram Trigger').item.json.callback_query.message.chat.id }}",
+        "file": "={{\"https://github.com/chaitanyaramisetti4589-gif/chaitanya-ramisetti/blob/master/gitprofile/LINKED%20IN%20PROFILE.png?raw=true\"}}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        448,
+        368
+      ],
+      "id": "5f964319-b4b3-4a3b-88f9-938c091f4284",
+      "name": "Send a photo message2",
+      "webhookId": "d31f7e78-e4a7-4123-8b99-3ea17fb56a2f",
+      "credentials": {
+        "telegramApi": {
+          "id": "Z6YP4MDFCKRarc3v",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "sendRichMessage",
+        "chatId": "={{ $('📩 Telegram Trigger').item.json.callback_query.message.chat.id }}",
+        "richMessageText": "<b>👨‍💻 About the Developer</b>\n<br><br>\nHi! I'm <b>Chaitanya Ramisetti</b>, a passionate Computer Science student and aspiring <b>AI Automation & Backend Developer</b> from India. 🇮🇳\n<br><br>\nI enjoy building practical AI-powered applications that solve real-world problems using modern technologies and automation.\n<br><br>\n━━━━━━━━━━━━━━━━━━\n<br><br>\n<b>🚀 Skills</b>\n<br><br>\n• Python\n• MongoDB\n• n8n Automation\n• AI Integrations (Groq, Gemini)\n• Git & GitHub\n<br><br>\n━━━━━━━━━━━━━━━━━━\n<br><br>\n<b>💡 Projects</b>\n<br><br>\n🎬 CineMate AI – AI Movie Recommendation Bot<br>\n📧 AI Email Assistant<br>\n📄 AI Document Summarizer<br>\n🤖 AI Automation Workflows<br>\n<br><br>\n━━━━━━━━━━━━━━━━━━\n<br><br>\n<b>🎯 Current Focus</b>\n<br><br>\nBuilding AI-powered automation solutions, backend systems, and intelligent assistants while continuously improving my software engineering skills.\n<br><br>\n━━━━━━━━━━━━━━━━━━\n<br><br>\n<b>🙏 Thank you for using CineMate AI!</b>\n<br><br>\nYour support motivates me to build even better AI applications. 🚀",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        672,
+        368
+      ],
+      "id": "8ec9ad6f-8a84-4552-96d4-7f7a50ccbde8",
+      "name": "Send a rich message",
+      "webhookId": "e1b0701a-69cc-4a50-a2a0-13e98a3d986a",
+      "credentials": {
+        "telegramApi": {
+          "id": "Z6YP4MDFCKRarc3v",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "8472fe1f-e1c9-487d-b62e-bcdf99ab4af9",
+              "leftValue": "={{ $json.results.length  }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1984,
+        -1712
+      ],
+      "id": "77668110-318e-4c4c-97c1-191c2f9adc98",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "operation": "sendRichMessage",
+        "chatId": "={{ $('📩 Telegram Trigger').item.json.message.from.id }}",
+        "richMessageText": "=❌ <b>Movie not found.</b>\n<br>\nI couldn't find any movie matching your search in the database.\n<br>\nPlease try:<br>\n• Checking the spelling<br>\n• Using the original movie title<br>\n• Searching with fewer words<br>\n<br>\n<b>Examples:</b><br>\n<br>\n🎬 Interstellar<br>\n🎬 KGF<br>\n🎬 Pushpa<br>\n🎬 Bahubali<br>",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2640,
+        -1904
+      ],
+      "id": "138fa5dc-5c56-46cc-b3fa-8a016469d462",
+      "name": "Send a rich message1",
+      "webhookId": "c8f6d97e-85c4-43b8-a777-bd1a3cc22a13",
+      "credentials": {
+        "telegramApi": {
+          "id": "Z6YP4MDFCKRarc3v",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const movie = $(\"Movie Details\").first().json.results[0];\nconst ai = $(\"Parse AI\").first().json;\n\nconst output = `\n🎬 ${movie.title} (${movie.release_date.substring(0,4)})\n\n⭐ ${movie.vote_average.toFixed(1)}/10\n🎭 ${movie.genres}\n⏱️ ${movie.runtime} min\n\n🎬 Director\n${movie.director}\n\n👥 Cast\n${movie.cast}\n\n━━━━━━━━━━━━━━\n\n📝 Story\n\n${ai.story}\n\n━━━━━━━━━━━━━━\n\n❤️ Why You'll Enjoy It\n\n${ai.why.map(x => `✅ ${x}`).join(\"\\n\")}\n\n━━━━━━━━━━━━━━\n\n🎥 Trailer\n\n${movie.trailer}: \"\";\n\n━━━━━━━━━━━━━━\n\n📺 Available On\n\n${movie.streaming || \"Not Available\"}\n\n━━━━━━━━━━━━━━\n\n🎬 More in this Series\n\n${movie.related || \"No related movies\"}\n`;\n\nreturn [{\n  json: {\n    output\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4960,
+        128
+      ],
+      "id": "0c378ba7-4ba9-4db6-b321-a47e64985d5f",
+      "name": "Code in JavaScript11"
+    },
+    {
+      "parameters": {
+        "jsCode": "const ai = JSON.parse($json.output);\n\nreturn [{\n  json: ai\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4816,
+        128
+      ],
+      "id": "cf9de89e-30a0-4e8b-af52-224b80980001",
+      "name": "Parse AI"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "🧠 Intent Classifier",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "search",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "genre",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "language",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "trending",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "similar",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "top_rated",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "upcoming",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "popular1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "RECOMMENDATION",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "genre": {
+      "main": [
+        [
+          {
+            "node": "RECOMMENDATION",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "language": {
+      "main": [
+        [
+          {
+            "node": "RECOMMENDATION",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "trending": {
+      "main": [
+        [
+          {
+            "node": "RECOMMENDATION",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RECOMMENDATION": {
+      "main": [
+        [
+          {
+            "node": "Parse AI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "popular1": {
+      "main": [
+        [
+          {
+            "node": "RECOMMENDATION",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "search": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Similar": {
+      "main": [
+        [
+          {
+            "node": "RECOMMENDATION",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "search1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "search1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "RECOMMENDATION",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request2": {
+      "main": [
+        [
+          {
+            "node": "search1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "top_rated": {
+      "main": [
+        [
+          {
+            "node": "RECOMMENDATION",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript2": {
+      "main": [
+        [
+          {
+            "node": "RECOMMENDATION",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "RECOMMENDATION",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "upcoming": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript3": {
+      "main": [
+        [
+          {
+            "node": "Movie Details",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript4": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Cast": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "runtime": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 3
+          }
+        ]
+      ]
+    },
+    "director": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript5": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "trailer": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript6": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 4
+          }
+        ]
+      ]
+    },
+    "similar": {
+      "main": [
+        [
+          {
+            "node": "Similar",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "start message": {
+      "main": [
+        []
+      ]
+    },
+    "Switch1": {
+      "main": [
+        [
+          {
+            "node": "cb_trending",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "top_rated1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "popular",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "upcoming1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "help message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request6",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Code in JavaScript8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "cb_trending": {
+      "main": [
+        [
+          {
+            "node": "RECOMMENDATION1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "RECOMMENDATION1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RECOMMENDATION1": {
+      "main": [
+        [
+          {
+            "node": "cb_messages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "top_rated1": {
+      "main": [
+        [
+          {
+            "node": "RECOMMENDATION1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "popular": {
+      "main": [
+        [
+          {
+            "node": "RECOMMENDATION1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "upcoming1": {
+      "main": [
+        [
+          {
+            "node": "RECOMMENDATION1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request3": {
+      "main": [
+        [
+          {
+            "node": "Send a photo message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a photo message": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request4": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request5": {
+      "main": [
+        [
+          {
+            "node": "Send a photo message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "stream": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 5
+          }
+        ]
+      ]
+    },
+    "Movie Details": {
+      "main": [
+        [
+          {
+            "node": "RECOMMENDATION",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch3": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request4",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "photo1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a text message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "photo1": {
+      "main": [
+        [
+          {
+            "node": "Send a photo message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request6": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript7": {
+      "main": [
+        [
+          {
+            "node": "RECOMMENDATION1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript8": {
+      "main": [
+        [
+          {
+            "node": "Switch4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch4": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request7",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Similar1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Cast1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request8",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "start message1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a photo message2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request7": {
+      "main": [
+        [
+          {
+            "node": "RECOMMENDATION2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "RECOMMENDATION2",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RECOMMENDATION2": {
+      "main": [
+        [
+          {
+            "node": "cb_messages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Similar1": {
+      "main": [
+        [
+          {
+            "node": "RECOMMENDATION2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cast1": {
+      "main": [
+        [
+          {
+            "node": "RECOMMENDATION2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request8": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request9",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request9": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript9": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript10": {
+      "main": [
+        [
+          {
+            "node": "RECOMMENDATION2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📩 Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "CALL BACK OR MESSAGE CLASSIFIER",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "CALL BACK OR MESSAGE CLASSIFIER": {
+      "main": [
+        [
+          {
+            "node": "Answering Buttons",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "start or other",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Answering Buttons": {
+      "main": [
+        [
+          {
+            "node": "Switch1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "start or other": {
+      "main": [
+        [
+          {
+            "node": "Send a photo message1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "🧠 Intent Classifier",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🧠 Intent Classifier": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a photo message1": {
+      "main": [
+        [
+          {
+            "node": "start message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a photo message2": {
+      "main": [
+        [
+          {
+            "node": "Send a rich message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Send a rich message1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "director",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Cast",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "runtime",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "stream",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "trailer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript11": {
+      "main": [
+        [
+          {
+            "node": "Switch3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse AI": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript11",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "670fb9c7-e216-40be-979e-e0fb538f5907",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "9193bcc367f22815c46fb87b42db5964b03c564dcb484b2ee1374261218a4446"
+  },
+  "nodeGroups": [],
+  "id": "8paPGAj41VR2yVuU",
+  "tags": []
+}
